@@ -214,5 +214,3 @@ Con esto ya queda programado el escalamiento de la aplicación en los horarios d
 
 
 
-
-Autores: IBM Cloud Tech Sales - Juan Diego Tovar Cárdenas.
