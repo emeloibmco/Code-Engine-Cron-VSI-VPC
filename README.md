@@ -115,7 +115,7 @@ Descargue los archivos de este repositorio y cree uno nuevo CONFIGURELO DE MANER
  - Reemplace ```APIKEY``` y ```REGION``` por su api key de su cuenta de IBM Cloud y la región correspondiente.
  - En la línea ```id_vsi=ID_VSI``` reemplace el valor de ```ID_VSI``` por el ID de su VSI.
  - En caso de utilizar una region diferente de us-south, verifique los endpoints disponibles [vpc-service-endpoints](https://cloud.ibm.com/docs/vpc?topic=vpc-service-endpoints-for-vpc).
- En el archivo app, las líneas de los comandos ```if``` y ```elif``` verifique las horas a las que desea realizar las modificaciones dentro del condicional ```[ "$hora_actual" -eq h ]```, reemplace el valor de ```h``` por la hora deseada (de 0 a 23), puede agregar más de estos casos si así lo desea.
+ - En el archivo app, las líneas de los comandos ```if``` y ```elif``` verifique las horas a las que desea realizar las modificaciones dentro del condicional ```[ "$hora_actual" -eq h ]```, reemplace el valor de ```h``` por la hora deseada (de 0 a 23), puede agregar más de estos casos si así lo desea.
 
 
 
