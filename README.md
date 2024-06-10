@@ -46,7 +46,7 @@ ssh-keygen -t ed25519 -C "CORREO"
 ```
 Reemplazando ```CORREO``` por nuestro correo de inicio de sesión de Github, nos pedirá ingresar un nombre para la llave ssh y luego una _passphrase_ es importante que dejemos este último espacio en blanco y solo dar enter, esto creara dos archivos con dos llaves, una privada y una pública en archivos del mismo nombre pero en el caso de la pública se obtiene la extensión .pub. Debemos copiar el archivo de la llave privada a la carpeta de archivos ssh de la máquina, esto se logra mediante
 ```
-cp NOMBRE_LLAVE ~/.ssh
+cp NOMBRE_LLAVE ~/.ssh/NOMBRE_LLAVE
 ```
 Reemplazando ```NOMBRE_LLAVE``` por el nombre que le hayamos colocado a la llave ssh. Ahora debemos agregar la llave a un _ssh-agent_ para ello debemos realizar los siguientes pasos:
 1. Iniciar el _ssh-agent_, use el comando
@@ -58,6 +58,10 @@ Debe obtener un salida del tipo ```Agent pid #```.
 2. Modificar el archivo de configuración de las llave ssh, acceda a él madiante el comando
 ```
 open ~/.ssh/config
+```
+En caso de que no exista el directorio .shh 
+```
+mkdir .shh
 ```
 Si obtenemos un mensaje de que el archivo no existe debemos crearlo mediante
 ```
@@ -109,7 +113,7 @@ Tendrá un token de acceso a su cuenta de Dockerhub, guardar este valor para fut
 ### Crear repositorio en Github
 Descargue los archivos de este repositorio y cree uno nuevo CONFIGURELO DE MANERA PRIVADA YA QUE COLOCAREMOS INFORMACIÓN DE ACCESO A SU CUENTA DE IBM CLOUD. Cuando ya esté creado ingrese al archivo env.example.sh, elimine el example del nombre del archivo y modifique los parámetros.
  - Reemplace ```APIKEY``` y ```REGION``` por su api key de su cuenta de IBM Cloud y la región correspondiente.
- - En la línea ```id_vsi=ID_VSI``` reemplace el valor de ```ID_VSI_POWER``` por el ID de su VSI.
+ - En la línea ```id_vsi=ID_VSI``` reemplace el valor de ```ID_VSI``` por el ID de su VSI.
  - En el archivo app, las líneas de los comandos ```if``` y ```elif``` verifique las horas a las que desea realizar las modificaciones dentro del condicional ```[ "$hora_actual" -eq h ]```, reemplace el valor de ```h``` por la hora deseada (de 0 a 23), puede agregar más de estos casos si así lo desea.
 
 
@@ -124,7 +128,7 @@ En IBM Cloud entre al apartado **Catalog** > **Containers** > **Code Engine** > 
 <img width="700" alt="workspace" src="images/code_engine.gif">
 
 Complete los valores de las variables:
- - **Location**: Seleccione una de las localizaciones para desplegar sus aplicaciones de Code Engine, no necesariamente debe ser donde esté la instancia de Power.
+ - **Location**: Seleccione una de las localizaciones para desplegar sus aplicaciones de Code Engine, no necesariamente debe ser donde esté la instancia de VPC.
  - **Name**: Un nombre para su proyecto de Code Engine.
  - **Resource group**: El grupo de recursos de su cuenta de IBM Cloud donde creará su proyecto de Code Engine.
 
@@ -165,7 +169,7 @@ De en **Create** y espere a que se cree su proyecto, una vez finalizada la creac
  - **Optional settings**: Dejar valores por defecto.
  - Dé click en **Create**
 
-Se empezará a construir la imagen, se demora aproximadamente minutos 4 minutos y luego se desplegará la aplicación, se demora aproximadamente 2 minutos. Una vez desplegada nuestra aplicación puede correrla manualmente yendo al apartado **Application** y dar en **Open URL** de nuestra aplicación, verá que se abré una nueva pestaña (toma unos segundos en cargar) y verá una serie de mensajes de consola y un mensaje al final "No es hora", "Actualizado a 2" o Actualizado a 4" dependiendo de si es la hora que se programó el escalamiento.
+Se empezará a construir la imagen, se demora aproximadamente minutos 4 minutos y luego se desplegará la aplicación, se demora aproximadamente 2 minutos. Una vez desplegada nuestra aplicación puede correrla manualmente yendo al apartado **Application** y dar en **Open URL** de nuestra aplicación, verá que se abré una nueva pestaña (toma unos segundos en cargar) y verá una serie de mensajes de consola y un mensaje al final "No es hora", "Actualizado a apagada" o Actualizado a encendida" dependiendo de si es la hora que se programó el escalamiento.
 
 
 
