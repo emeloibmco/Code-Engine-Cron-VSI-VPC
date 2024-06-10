@@ -1,5 +1,5 @@
-# Code-Engine-Cron-PowerVS
-_Este repositorio contiene los archivos necesarios para generar una aplicación en Code Engine en IBM Cloud que modifique los parámetros de un VSI de Power previamente creado usando suscripciones por eventos de Cron_
+# Code-Engine-Cron-VSI-VPC
+_Este repositorio contiene los archivos necesarios para generar una aplicación en Code Engine en IBM Cloud que modifique de una VSI dentro de una VPC previamente creado usando suscripciones por eventos de Cron_
 
 
 
@@ -26,7 +26,7 @@ _Este repositorio contiene los archivos necesarios para generar una aplicación 
 ## Prerrequisitos
 1. Tener una cuenta en [IBM Cloud](https://cloud.ibm.com/) con un grupo de recursos disponible (puede ser el _Default_).
 2. Una api key para la cuenta de IBM Cloud.
-3. Un espacio de trabajo de Power en IBM Cloud con una instancia de VSI.
+3. Una VPC con intancia de virtual server.
 4. Tener una cuenta en [Docker Hub](https://hub.docker.com/) o cualquier servicio en línea que proporcione un registro de contenedores para la plataforma Docker.
 5. Tener una cuenta de [GitHub](https://github.com).
 
@@ -74,7 +74,7 @@ Reemplazar ```NOMBRE_LLAVE``` por el nombre que le hayamos colocado a la llave s
 
 3. Agregar la llave al _ssh-agent_, esto se logra madiante el comando
 ```
-ssh-add --apple-use-keychain ~/.ssh/NOMBRE_LLAVE
+ssh-add --k ~/.ssh/NOMBRE_LLAVE
 ```
 Reemplazar ```NOMBRE_LLAVE``` por el nombre que le hayamos colocado a la llave ssh. Debemos obtener una salida del tipo ```Identity added: /Users/USUARIO/.ssh/NOMBRE_LLAVE (CORREO)```
 
@@ -107,13 +107,10 @@ Tendrá un token de acceso a su cuenta de Dockerhub, guardar este valor para fut
 
 
 ### Crear repositorio en Github
-Descargue los archivos de este repositorio y cree uno nuevo CONFIGURELO DE MANERA PRIVADA YA QUE COLOCAREMOS INFORMACIÓN DE ACCESO A SU CUENTA DE IBM CLOUD. Cuando ya esté creado ingrese al archivo _app_ y modifique los siguientes parámetros:
- - En la línea ```ibmcloud login --apikey APIKEY -r REGION``` reemplace el valor de ```APIKEY``` y ```REGION``` por su api key de su cuenta de IBM Cloud y la región correspondiente.
- - En la línea ```id_workspace=ID_WORKSPACE_POWER``` reemplace el valor de ```ID_WORKSPACE_POWER``` por el ID de su espacio de trabajo de Power en IBM Cloud.
- - En la línea ```id_vsi=ID_VSI_POWER``` reemplace el valor de ```ID_VSI_POWER``` por el ID de su VSI en el espacio de trabajo de Power.
- - En la línea ```CRN=CRN_WORKSPACE_POWER``` reemplace el valor de ```CRN_WORKSPACE_POWER``` por el CRN del espacio de trabajo de Power en IBM Cloud.
- - En las líneas de los comandos ```if``` y ```elif``` verifique las horas a las que desea realizar las modificaciones dentro del condicional ```[ "$hora_actual" -eq h ]```, reemplace el valor de ```h``` por la hora deseada (de 0 a 23), puede agregar más de estos casos si así lo desea.
- - En las líneas de los comandos ```curl``` verifique que la región luego de "https://" corresponde con la de su instancias de power y verifique al final que se modifica el parámetro deseado con el valor deseado, por ejemplo ```'{"memory": 2}'``` para modificar la memoria RAM a 2 GB.
+Descargue los archivos de este repositorio y cree uno nuevo CONFIGURELO DE MANERA PRIVADA YA QUE COLOCAREMOS INFORMACIÓN DE ACCESO A SU CUENTA DE IBM CLOUD. Cuando ya esté creado ingrese al archivo env.example.sh, elimine el example del nombre del archivo y modifique los parámetros.
+ - Reemplace ```APIKEY``` y ```REGION``` por su api key de su cuenta de IBM Cloud y la región correspondiente.
+ - En la línea ```id_vsi=ID_VSI``` reemplace el valor de ```ID_VSI_POWER``` por el ID de su VSI.
+ - En el archivo app, las líneas de los comandos ```if``` y ```elif``` verifique las horas a las que desea realizar las modificaciones dentro del condicional ```[ "$hora_actual" -eq h ]```, reemplace el valor de ```h``` por la hora deseada (de 0 a 23), puede agregar más de estos casos si así lo desea.
 
 
 
@@ -158,7 +155,7 @@ De en **Create** y espere a que se cree su proyecto, una vez finalizada la creac
          - **Access token**: EL _access token_ creado anteriormente.
          - Dé click en **Create**.
        - Deben aparecer actualizados los siguientes apartados:
-         - **Registry server**: Debe contener el valor "https://index.docker.io/v1/".
+         - **Registry server**: Debe contener el valor "registry.hub.docker.com".
          - **Registry secret**: El nombre que se le colocó al secreto.
          - **Namespace**: Su usuario de Dockerhub.
          - **Repository (image name)**: Puede ingresar un nombre para su repositorio en Dockerhub, preferiblemente uno con el cual identificar la imagen que se va a crear.
@@ -203,7 +200,7 @@ Con esto ya queda programado el escalamiento de la aplicación en los horarios d
 ## Referencias
 
 - [IBM Code Engine Bash Scripts](https://github.com/IBM/CodeEngine/tree/main/bash)
-- [IBM Power Cloud API Documentation](https://cloud.ibm.com/apidocs/power-cloud#pcloud-pvminstances-put)
+- [IBM VPC Cloud API Documentation](https://cloud.ibm.com/docs/vpc?topic=vpc-managing-virtual-server-instances&interface=api)
 - [GitHub SSH Key Generation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 - [GitHub SSH Key Addition](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
 - [Cron Expression Generator](https://crontab.cronhub.io/)
